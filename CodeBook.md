@@ -1,27 +1,65 @@
-# Getting_Cleaning_Data
+# Getting_Cleaning_Data CodeBook 
 Coursera Getting and Cleaning Data Final Project March 2015
 
-<b>Project Definition</b>
+<b>Description</b>
 
-The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis. You will be graded by your peers on a series of yes/no questions related to the project. You will be required to submit: 1) a tidy data set as described below, 2) a link to a Github repository with your script for performing the analysis, and 3) a code book that describes the variables, the data, and any transformations or work that you performed to clean up the data called CodeBook.md. You should also include a README.md in the repo with your scripts. This repo explains how all of the scripts work and how they are connected.  
+The purpose of this project was to create one tidy dataset from multiple files as defined below.  The five steps noted here were required as part of this project.  
 
-One of the most exciting areas in all of data science right now is wearable computing - see for example  this article . Companies like Fitbit, Nike, and Jawbone Up are racing to develop the most advanced algorithms to attract new users. The data linked to from the course website represent data collected from the accelerometers from the Samsung Galaxy S smartphone. A full description is available at the site where the data was obtained: 
-
-http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
-
-Here are the data for the project: 
-
-https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
-
- You should create one R script called run_analysis.R that does the following. 
 1.Merges the training and the test sets to create one data set.
 2.Extracts only the measurements on the mean and standard deviation for each measurement. 
 3.Uses descriptive activity names to name the activities in the data set
 4.Appropriately labels the data set with descriptive variable names. 
 5.From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-<b>Files Included in this Repository</b>
+<b>Dataset Description and Source </b>
 
-CodeBook.md - Includes information about the data, such as variable descriptions and the transformations used to clean the daata
+The dataset used is from data collected using the accelerometers on the Samsung Galaxy S smartphone.  The full desription is available at the following site: 
 
-run_analysis.R - R script that transforms the original data into a tidy data set as defined in the project description
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
+
+The dataset used for this project is available at: 
+
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+
+<b>Variables </b>
+
+Within the dataset are testing and training files that have three sets of data:
+
+- Subject Files which include an identifier for each subject tested (1 - 30)
+- Activity Files which include an identifer for each activity (1 - 6 = Matched with labels in the activity labels text file)
+- Measurement Files which include 561 variables that have measurements from the accelerometer and gyroscope within the device. Further information about the variables is included in features_info.txt. 
+
+<b>Transformations</b>
+
+In order to create one tidy dataset multiple transformations were required. 
+
+The plyr and dplyr packages in R were installed for this project and loaded at the begining of the R script. 
+
+First all text files were loaded to data tables and were assigned column names appropriate to the data within the table. 
+
+The test and training files were combined using the "rbind" function for each of the three subsets of data: subject, activity, measurements.  These three subsets were then combined into one dataset that represents all of the test and training data and satisfies the first step in the proejct. 
+
+Next activity descriptions were added as a new column based on the activity labels file and using the unique ActivityId value from each set to match. The "merge" function was used to create this new dataset. This satisfies the second step in the project. 
+
+The column names were then updated to be more descriptive of the values that they contain, this was done using the "gsub" function. 
+- The parentheses were removed
+- The prefix "t" was replaced with "Time" to indicate that these are Time Domain variables
+- The prefix "f" was replaced with "Frequency" to indicate that these are Frequency Domain varaibles
+- The value "Acc" was replaced with "Accelerometer" to indicate that measurement was done with the Accelerometer
+- The value "Gyro" was replaced with "Gyroscope" to indicate that measurement was done with the Gyroscope
+- The value "Mag" was replaced with "Magnitude" to add description to the value
+- The term "BodyBody" was replaced with "Body" to simplify the description 
+
+This completed the fourth step in the project. 
+
+Finally the dataset was summarized using the "aggregate" function such that the values left were grouped by Activity ID, Subject ID and Activity Description and represented the means of the values for each combination. 
+
+The tidy dataset was then written to a text file.
+
+
+
+
+
+
+
+
