@@ -86,4 +86,5 @@ names(dataset_3)<-gsub("BodyBody", "Body", names(dataset_3))
 tidydata<-aggregate(. ~SubjectId + ActivityId + ActivityDesc, dataset_3, mean)
 #Write out text file for attachment to final project 
 write.table(tidydata, file = "tidydata.txt", row.name=FALSE)
+####STEP 5 COMPLETED - WRITE THE TIDY DATASET OUT TO A TEXT FILE####
 
